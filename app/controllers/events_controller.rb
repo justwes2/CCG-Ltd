@@ -21,17 +21,17 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(event_params)
-    respond_to do |format|
-      if @event.save
-        format.html {redirect_to @event, notice "Event added"}
-        format.json {render json: @event, status: :created, location @event}
-      else
-        format.html {render :new}
-        format.json {render json: @event.errors, status: :unprocessable_entity}
+      @event = Event.new(event_params)
+      respond_to do |format|
+        if @event.save
+          format.html {redirect_to @event, notice: "Event added"}
+          format.json {render json: @event, status: :created, location: @event}
+        else
+          format.html {render :new}
+          format.json {render json: @event.errors, status: :unprocessable_entity}
+        end
       end
     end
-  end
 
   def edit
     @event = Event.find(params[:id])

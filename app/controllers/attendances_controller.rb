@@ -4,7 +4,7 @@ class AttendancesController < ApplicationController
     @attendances = Attendance.all
     respond_to do |format|
       # format.html {render :index}
-      format.json {render json: @events}
+      format.json {render json: @attendances}
     end
   end
 
@@ -20,7 +20,7 @@ class AttendancesController < ApplicationController
 
     existing_attendance = Attedance.find_by(event: @event, student: @student)
     unless existing_attendance
-      @event.attendance.create(student: @student)
+      @event.attendance.create!(student: @student)
     end
     redirect_to event_path(@event)
   end

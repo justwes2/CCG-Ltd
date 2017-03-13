@@ -18,11 +18,20 @@ class AttendancesController < ApplicationController
     @student = Student.find_or_create_by(name: params[:student_name])
 
 
-    existing_attendance = Attedance.find_by(event: @event, student: @student)
+    existing_attendance = Attendance.find_by(event: @event, student: @student)
     unless existing_attendance
-      @event.attendance.create!(student: @student)
+      @attendance = @event.attendances.create!(student: @student)
     end
-    redirect_to event_path(@event)
+    respond_to do |format|
+      if @attendance.save
+        format.html { redirect_to @event, notice: 'Attendance was successfully created.' }
+        format.json { render json: @attendance, status: :created }
+      else
+        format.html { render :new }
+        format.json { render json: @attendance.errors, status: :unprocessable_entity }
+      end
+    end
+    # redirect_to event_path(@event)
   end
 
 end

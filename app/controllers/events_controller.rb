@@ -41,7 +41,6 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @event.destroy
     render json: {message: "success"}, status: :ok
-
   end
 
   private

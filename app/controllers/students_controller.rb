@@ -7,7 +7,7 @@ class StudentsController < ApplicationController
 
   def show
     @student = Student.find(params[:id])
-    render json: @events
+    render json: @student
   end
 
   def new
@@ -15,12 +15,11 @@ class StudentsController < ApplicationController
   end
 
   def create
-      @student = Student.new(student_params)
-        if @student.save
-          frender json: @student, status: :created
-        else
-          render json: @message.errors, status: :unprocessable_entity
-        end
+    @student = Student.new(student_params)
+      if @student.save!
+        render json: @student, status: :created
+      else
+        render json: @message.errors, status: :unprocessable_entity
       end
     end
 
@@ -41,8 +40,6 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
     @student.destroy
     render json: {message: "success"}, status: :ok
-
-
   end
 
   private

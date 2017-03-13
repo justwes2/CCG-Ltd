@@ -117,3 +117,9 @@ Event.create(
  organizer: "Alexandria Code & Coffee",
  event_url: "https://www.meetup.com/Alexandria-Code-Coffee/events/237482148/"
 )
+
+Attendance.create(
+  student_id: 1,
+  event_id: 1,
+  comment: "test of thing"
+)

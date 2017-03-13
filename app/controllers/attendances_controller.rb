@@ -1,5 +1,13 @@
 class AttendancesController < ApplicationController
 
+  def index
+    @attendances = Attendance.all
+    respond_to do |format|
+      # format.html {render :index}
+      format.json {render json: @events}
+    end
+  end
+
   def new
     @event = Event.find(params[:event_id])
     @attendance = @event.attendances.new
@@ -7,7 +15,8 @@ class AttendancesController < ApplicationController
 
   def create
     @event = Event.find(params[:event_id])
-    @student = Student.find_or_create_by(name: params [:student_name])
+    @student = Student.find_or_create_by(name: params[:student_name])
+
 
     existing_attendance = Attedance.find_by(event: @event, student: @student)
     unless existing_attendance
@@ -15,5 +24,5 @@ class AttendancesController < ApplicationController
     end
     redirect_to event_path(@event)
   end
-  
+
 end

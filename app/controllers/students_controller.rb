@@ -2,18 +2,12 @@ class StudentsController < ApplicationController
 
   def index
     @students = Student.all
-    respond_to do |format|
-      # format.html {render :index}
-      format.json {render json: @students}
-    end
+    render json: @students
   end
 
   def show
     @student = Student.find(params[:id])
-    respond_to do |format|
-      # format.html {render :show}
-      format.json {render json: @student}
-    end
+    render json: @student
   end
 
   def new
@@ -21,15 +15,11 @@ class StudentsController < ApplicationController
   end
 
   def create
-      @student = Student.new(student_params)
-      respond_to do |format|
-        if @student.save
-          format.html {redirect_to @student, notice: "Student added"}
-          format.json {render json: @student, status: :created, location: @student}
-        else
-          format.html {render :new}
-          format.json {render json: @student.errors, status: :unprocessable_entity}
-        end
+    @student = Student.new(student_params)
+      if @student.save!
+        render json: @student, status: :created
+      else
+        render json: @message.errors, status: :unprocessable_entity
       end
     end
 
@@ -39,14 +29,17 @@ class StudentsController < ApplicationController
 
   def update
     @student = Student.find(params[:id])
-    @student.update(student_params)
-    redirect_to @student
+    if @student.update!(event_params)
+      render json: @student
+    else
+      render json: @message.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
     @student = Student.find(params[:id])
     @student.destroy
-    redirect_to students_path
+    render json: {message: "success"}, status: :ok
   end
 
   private

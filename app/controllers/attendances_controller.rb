@@ -1,7 +1,9 @@
 class AttendancesController < ApplicationController
 
   def index
-    @attendances = Attendance.all
+    @event = Event.find(params[:event_id])
+    # @attendances = Attendance.all
+    @attendances = @event.attendances
     respond_to do |format|
       # format.html {render :index}
       format.json {render json: @attendances}
@@ -14,13 +16,17 @@ class AttendancesController < ApplicationController
   end
 
   def create
-    @event = Event.find(params[:event_id])
-    @student = Student.find_or_create_by(name: params[:student_name])
+    @event = Event.find(attendance_params[:event_id])
+    puts "====================#{attendance_params[:event_id]}"
+    puts "====================#{attendance_params[:student_id]}"
+    @student = Student.find(attendance_params[:student_id])
 
-
+    puts "+=+=+=+=+=+=+=+=+ event:#{@event}"
+    puts "+=+=+=+=+=+=+=+=+ student:#{@student.inspect}"
     existing_attendance = Attendance.find_by(event: @event, student: @student)
     unless existing_attendance
-      @attendance = @event.attendances.create!(student: @student)
+      puts "+=+=+=+=+=+=+=+=+ I'm here"
+      @attendance = @event.attendances.create!(comment: attendance_params[:comment], student: @student)
     end
     respond_to do |format|
       if @attendance.save
@@ -32,6 +38,11 @@ class AttendancesController < ApplicationController
       end
     end
     # redirect_to event_path(@event)
+  end
+
+  private
+  def attendance_params
+    params.require(:attendance).permit(:student_id, :event_id, :comment)
   end
 
 end

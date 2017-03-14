@@ -119,7 +119,7 @@ Event.create(
 )
 
 Attendance.create(
-  student_id: 1,
-  event_id: 1,
+  student_id: Student.first.id,
+  event_id: Event.first.id,
   comment: "test of thing"
 )

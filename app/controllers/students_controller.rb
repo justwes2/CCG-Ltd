@@ -29,7 +29,7 @@ class StudentsController < ApplicationController
 
   def update
     @student = Student.find(params[:id])
-    if @student.update!(event_params)
+    if @student.update!(student_params)
       render json: @student
     else
       render json: @message.errors, status: :unprocessable_entity

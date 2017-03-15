@@ -1,9 +1,11 @@
 class AttendancesController < ApplicationController
 
+  skip_before_filter  :verify_authenticity_token
+  
   def index
     @event = Event.find(params[:event_id])
     @attendances = @event.attendances
-    # @students = Student.find_by(attendance_params[:student_id])
+    @students = Student.find_by(attendance_params[:student_id])
     puts "====================#{students}"
 
     respond_to do |format|

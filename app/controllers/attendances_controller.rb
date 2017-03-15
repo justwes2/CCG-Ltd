@@ -2,8 +2,10 @@ class AttendancesController < ApplicationController
 
   def index
     @event = Event.find(params[:event_id])
-    # @attendances = Attendance.all
     @attendances = @event.attendances
+    # @students = Student.find_by(attendance_params[:student_id])
+    puts "====================#{students}"
+
     respond_to do |format|
       # format.html {render :index}
       format.json {render json: @attendances}
@@ -17,7 +19,6 @@ class AttendancesController < ApplicationController
 
   def create
     @event = Event.find(attendance_params[:event_id])
-    puts "====================#{attendance_params[:event_id]}"
     puts "====================#{attendance_params[:student_id]}"
     @student = Student.find(attendance_params[:student_id])
 
@@ -30,9 +31,11 @@ class AttendancesController < ApplicationController
     end
     respond_to do |format|
       if @attendance.save
+        puts "is saved"
         format.html { redirect_to @event, notice: 'Attendance was successfully created.' }
         format.json { render json: @attendance, status: :created }
       else
+        puts "no save"
         format.html { render :new }
         format.json { render json: @attendance.errors, status: :unprocessable_entity }
       end

@@ -3,8 +3,8 @@ class AttendancesController < ApplicationController
   def index
     @event = Event.find(params[:event_id])
     @attendances = @event.attendances
-    @students = Student.find_by(attendance_params[:student_id])
-    puts "====================#{students}"
+    # @students = Student.find_by(attendance_params[:student_id])
+    puts "====================#{@students}"
 
     respond_to do |format|
       # format.html {render :index}

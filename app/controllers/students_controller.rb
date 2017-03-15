@@ -1,7 +1,5 @@
 class StudentsController < ApplicationController
 
-  skip_before_filter  :verify_authenticity_token
-  
   def index
     @students = Student.all
     render json: @students
